@@ -1,0 +1,63 @@
+<div class="table-header">
+  <h4>List {{listIndex + 1}}</h4>
+  <button class="btn btn-outline-secondary btn-sm m-1" (click)="sortList()">Order by fav</button>
+  <div>
+    <img class="mx-2" placement="top" ngbTooltip="Add Book" role="button" src="/assets/plus.svg"
+      (click)="showAddBookModal(AddBookModal)">
+    <img class="mx-2" placement="top" ngbTooltip="Remove List" role="button" src="/assets/trash.svg"
+      (click)="RemoveList()">
+  </div>
+</div>
+
+<table class="table table-striped bookList">
+  <thead>
+    <tr>
+
+      <th *ngFor="let col of ListCols" scope="col">{{col}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let book of BooksList; let i = index">
+      <td>{{book.title}}</td>
+      <td>{{book.year}}</td>
+      <td>{{book.author}}</td>
+      <td>
+        <img placement="top" ngbTooltip="Remove Book" role="button" src="/assets/trash.svg" (click)="RemoveBook(i)">
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<ng-template #AddBookModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add New Book to List</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+  </div>
+  <form [formGroup]="BookForm">
+    <div class="modal-body">
+      <div class="row">
+        <div class="form-group col-md-6 col-12 my-2">
+          <label for="title">Book Title</label>
+          <input type="text" class="form-control" id="title" formControlName="title">
+        </div>
+        <div class="form-group col-md-6 col-12 my-2">
+          <label for="year">Year</label>
+          <input type="number" class="form-control" id="year" formControlName="year">
+        </div>
+        <div class="form-group col-md-6 col-12 my-2">
+          <label for="author">Author Name</label>
+          <input type="text" class="form-control" id="author" formControlName="author">
+        </div>
+        <div class="form-group col-md-6 col-12 my-2">
+          <label for="order">Fav Order</label>
+          <input type="number" class="form-control" id="order" formControlName="order">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="AddBookToList(listIndex,BookForm)">Save</button>
+      <button type="button" class="btn btn-outline-dark" (click)="d('Close click')">Close</button>
+    </div>
+  </form>
+</ng-template>
