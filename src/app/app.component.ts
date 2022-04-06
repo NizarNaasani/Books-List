@@ -18,7 +18,7 @@ export class AppComponent {
 
   title = 'book-list';
   date = new Date().getFullYear();
-  BooksLists: ListItem[] = this.appService.GetLists();
+  BooksLists: ListItem[] = this.appService.GetBooksLists();
 
   ListForm: FormGroup = this.formbuilder.group({
     books_list: this.formbuilder.array([
@@ -36,8 +36,8 @@ export class AppComponent {
   showAddListModal(modal: any) {
     this.modalService.open(modal, { size: 'lg' });
   }
-  AddBookInput() {
 
+  AddBookInput() {
     this.booksList.push(this.formbuilder.group({
       title: ['', Validators.required],
       year: [1950, Validators.required],
@@ -51,9 +51,8 @@ export class AppComponent {
   }
 
   AddList(booksList: FormArray) {
-    this.appService.AddList(booksList.value);
+    this.appService.AddBooksList(booksList.value);
     this.modalService.dismissAll();
     this.ListForm.reset();
   }
-
 }

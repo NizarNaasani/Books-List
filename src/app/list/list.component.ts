@@ -10,8 +10,6 @@ import { BookItem } from '../models/BookItem';
   styleUrls: ['./list.component.scss']
 })
 
-
-
 export class ListComponent implements OnInit {
   @Input() books: BookItem[] = [];
   @Input() listIndex: number = 0;
@@ -24,7 +22,7 @@ export class ListComponent implements OnInit {
   }
 
   asc: boolean = false;
-  ListCols: String[] = ["Book Title", "Year", "Author title", "Delete"];
+  ListCols: String[] = ["Book Title", "Year", "Author name", "Delete"];
   BooksList: BookItem[] = [];
   BookForm: FormGroup = this.formBuilder.group({
     title: ["", Validators.required],
@@ -37,12 +35,14 @@ export class ListComponent implements OnInit {
     var self = this;
     this.asc = !this.asc;
     this.BooksList.sort(function (l, r) {
-      return l.order > r.order ? (self.asc ? 1 : -1) : l.order < r.order ? (self.asc ? -1 : 1) : 0;
+      return l.order > r.order ? (self.asc ? 1 : -1)
+        : l.order < r.order ? (self.asc ? -1 : 1)
+          : 0;
     });
   }
 
-  RemoveList() {
-    this.appService.RemoveList(this.listIndex);
+  RemoveBooksList() {
+    this.appService.RemoveBooksList(this.listIndex);
   }
 
   showAddBookModal(modal: any) {

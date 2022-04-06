@@ -23,21 +23,21 @@ export class AppService {
       { title: "Eder's Game", year: 1985, author: "Orson Scott Car", order: 3 },
       { title: "1984", year: 1949, author: "George Orwell", order: 1 },]
     },
-  ]
-  GetLists() {
+  ];
+
+  GetBooksLists() {
     return this.ListItems;
   }
 
-  AddList(list: any) {
+  AddBooksList(list: any) {
     this.ListItems.push({
       List: list
     });
   }
 
-  RemoveList(index: number) {
+  RemoveBooksList(index: number) {
     this.ListItems.splice(index, 1);
   }
-
 
   AddBookToList(listIndex: number, book: BookItem) {
     this.ListItems[listIndex].List.push(book);
