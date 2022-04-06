@@ -6,20 +6,23 @@
   align-items: center;
   border-radius: 10px 10px 0px 0px;
 
-  h4,div{
+  h4{
     margin: 0 10px;
+  }
+  div {
+    margin: 0 10px;
+    img{
+      margin: 0 10px;
+    }
   }
 }
 
 .table{
-
   thead{
-
     tr{
       text-align: center;
     }
   }
-
   tbody{
     text-align: center;
   }

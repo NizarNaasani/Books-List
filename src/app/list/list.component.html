@@ -2,17 +2,15 @@
   <h4>List {{listIndex + 1}}</h4>
   <button class="btn btn-outline-secondary btn-sm m-1" (click)="sortList()">Order by fav</button>
   <div>
-    <img class="mx-2" placement="top" ngbTooltip="Add Book" role="button" src="/assets/plus.svg"
+    <img placement="top" ngbTooltip="Add Book" role="button" src="/assets/plus.svg"
       (click)="showAddBookModal(AddBookModal)">
-    <img class="mx-2" placement="top" ngbTooltip="Remove List" role="button" src="/assets/trash.svg"
-      (click)="RemoveList()">
+    <img placement="top" ngbTooltip="Remove List" role="button" src="/assets/trash.svg" (click)="RemoveList()">
   </div>
 </div>
 
 <table class="table table-striped bookList">
   <thead>
     <tr>
-
       <th *ngFor="let col of ListCols" scope="col">{{col}}</th>
     </tr>
   </thead>
@@ -28,7 +26,7 @@
   </tbody>
 </table>
 
-
+<!-- Add book to list Modal -->
 <ng-template #AddBookModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Add New Book to List</h4>
