@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppService } from './app.service';
-import { BookItem } from './models/BookItem';
-import { ListItem } from './models/ListItem';
+import { listItem } from './models/listItem';
 
 @Component({
   selector: 'app-root',
@@ -15,35 +14,31 @@ export class AppComponent {
   constructor(private appService: AppService, private modalService: NgbModal
     , private formbuilder: FormBuilder) {
   }
-
-  title = 'book-list';
-  date = new Date().getFullYear();
-  BooksLists: ListItem[] = this.appService.GetBooksLists();
-
-  ListForm: FormGroup = this.formbuilder.group({
+  currentYear: number = this.appService.currentYear;
+  booksLists: listItem[] = this.appService.GetBooksLists();
+  //#region List Form
+  bookItemForm: FormGroup = this.formbuilder.group({
+    title: ['', [Validators.required, Validators.minLength(4)]],
+    year: [1100, [Validators.required, Validators.min(1100), Validators.max(2022)]],
+    author: ['', [Validators.required, Validators.minLength(4)]],
+    order: [1, [Validators.required, Validators.min(0), Validators.max(100)]]
+  })
+  listForm: FormGroup = this.formbuilder.group({
     books_list: this.formbuilder.array([
-      this.formbuilder.group({
-        title: ['', Validators.required],
-        year: [1950, Validators.required],
-        author: ['', Validators.required],
-        order: [1, Validators.required]
-      })
+      this.bookItemForm
     ])
   });
   get booksList() {
-    return this.ListForm.get('books_list') as FormArray;
+    return this.listForm.get('books_list') as FormArray;
   }
-  showAddListModal(modal: any) {
+  //#endregion
+
+  ShowAddListModal(modal: TemplateRef<any>) {
     this.modalService.open(modal, { size: 'lg' });
   }
 
   AddBookInput() {
-    this.booksList.push(this.formbuilder.group({
-      title: ['', Validators.required],
-      year: [1950, Validators.required],
-      author: ['', Validators.required],
-      order: [1, Validators.required]
-    }))
+    this.booksList.push(this.bookItemForm)
   }
 
   DeleteBookInput(index: number) {
@@ -53,6 +48,6 @@ export class AppComponent {
   AddList(booksList: FormArray) {
     this.appService.AddBooksList(booksList.value);
     this.modalService.dismissAll();
-    this.ListForm.reset();
+    this.listForm.reset();
   }
 }

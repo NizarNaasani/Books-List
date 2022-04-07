@@ -1,4 +1,4 @@
-export interface BookItem {
+export interface bookItem {
   title: string,
   year: number,
   author: string,

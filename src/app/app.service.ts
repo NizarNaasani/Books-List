@@ -1,50 +1,50 @@
 import { Injectable } from "@angular/core";
-import { BookItem } from "./models/BookItem";
-import { ListItem } from "./models/ListItem";
+import { bookItem } from "./models/bookItem";
+import { listItem } from "./models/listItem";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
-
-  ListItems: ListItem[] = [
+  currentYear: number = new Date().getFullYear();
+  listItems: listItem[] = [
     {
-      List: [{ title: "Dune", year: 1965, author: "Frank Herbert", order: 2 },
+      list: [{ title: "Dune", year: 1965, author: "Frank Herbert", order: 2 },
       { title: "Eder's Game", year: 1985, author: "Orson Scott Car", order: 3 },
       { title: "1984", year: 1949, author: "George Orwell", order: 1 },]
     },
     {
-      List: [{ title: "Dune", year: 1965, author: "Frank Herbert", order: 2 },
+      list: [{ title: "Dune", year: 1965, author: "Frank Herbert", order: 2 },
       { title: "Eder's Game", year: 1985, author: "Orson Scott Car", order: 3 },
       { title: "1984", year: 1949, author: "George Orwell", order: 1 },]
     },
     {
-      List: [{ title: "Dune", year: 1965, author: "Frank Herbert", order: 2 },
+      list: [{ title: "Dune", year: 1965, author: "Frank Herbert", order: 2 },
       { title: "Eder's Game", year: 1985, author: "Orson Scott Car", order: 3 },
       { title: "1984", year: 1949, author: "George Orwell", order: 1 },]
     },
   ];
 
   GetBooksLists() {
-    return this.ListItems;
+    return this.listItems;
   }
 
-  AddBooksList(list: any) {
-    this.ListItems.push({
-      List: list
+  AddBooksList(list: bookItem[]) {
+    this.listItems.push({
+      list: list
     });
   }
 
-  RemoveBooksList(index: number) {
-    this.ListItems.splice(index, 1);
+  RemovebooksList(index: number) {
+    this.listItems.splice(index, 1);
   }
 
-  AddBookToList(listIndex: number, book: BookItem) {
-    this.ListItems[listIndex].List.push(book);
+  AddBookToList(listIndex: number, book: bookItem) {
+    this.listItems[listIndex].list.push(book);
   }
 
   RemoveBook(listIndex: number, bookIndex: number) {
-    this.ListItems[listIndex].List.splice(bookIndex, 1);
+    this.listItems[listIndex].list.splice(bookIndex, 1);
   }
 
 

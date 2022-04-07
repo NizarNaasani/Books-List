@@ -1,21 +1,21 @@
 <div class="table-header">
   <h4>List {{listIndex + 1}}</h4>
-  <button class="btn btn-outline-secondary btn-sm m-1" (click)="sortList()">Order by fav</button>
+  <button class="btn btn-outline-secondary btn-sm m-1" (click)="SortList()">Order by fav</button>
   <div>
     <img placement="top" ngbTooltip="Add Book" role="button" src="/assets/plus.svg"
-      (click)="showAddBookModal(AddBookModal)">
-    <img placement="top" ngbTooltip="Remove List" role="button" src="/assets/trash.svg" (click)="RemoveBooksList()">
+      (click)="ShowAddBookModal(AddBookModal)">
+    <img placement="top" ngbTooltip="Remove List" role="button" src="/assets/trash.svg" (click)="RemovebooksList()">
   </div>
 </div>
 
 <table class="table table-striped bookList">
   <thead>
     <tr>
-      <th *ngFor="let col of ListCols" scope="col">{{col}}</th>
+      <th *ngFor="let col of listCols" scope="col">{{col}}</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let book of BooksList; let i = index">
+    <tr *ngFor="let book of booksList; let i = index">
       <td>{{book.title}}</td>
       <td>{{book.year}}</td>
       <td>{{book.author}}</td>
@@ -32,29 +32,59 @@
     <h4 class="modal-title">Add New Book to List</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
   </div>
-  <form [formGroup]="BookForm">
+  <form [formGroup]="bookForm" (ngSubmit)="AddBookToList(listIndex,bookForm)">
     <div class="modal-body">
       <div class="row">
         <div class="form-group col-md-6 col-12 my-2">
           <label for="title">Book Title</label>
-          <input type="text" class="form-control" id="title" formControlName="title">
+          <input type="text" class="form-control" id="title" formControlName="title" required>
+          <span *ngIf="title?.errors?.['required']" class="text-danger">
+            title is required.
+          </span>
+          <span *ngIf="title?.errors?.['minlength']" class="text-danger">
+            title must be at least 4 characters.
+          </span>
         </div>
         <div class="form-group col-md-6 col-12 my-2">
           <label for="year">Year</label>
-          <input type="number" class="form-control" id="year" formControlName="year">
+          <input type="number" class="form-control" id="year" formControlName="year" required>
+          <span *ngIf="year?.errors?.['required']" class="text-danger">
+            year is required.
+          </span>
+          <span *ngIf="year?.errors?.['min']" class="text-danger">
+            year must be at least 1100.
+          </span>
+          <span *ngIf="year?.errors?.['max']" class="text-danger">
+            year must be less or equal to {{ currentYear}}.
+          </span>
         </div>
         <div class="form-group col-md-6 col-12 my-2">
           <label for="author">Author Name</label>
-          <input type="text" class="form-control" id="author" formControlName="author">
+          <input type="text" class="form-control" id="author" formControlName="author" required>
+          <span *ngIf="author?.errors?.['required']" class="text-danger">
+            author name is required.
+          </span>
+          <span *ngIf="author?.errors?.['minlength']" class="text-danger">
+            author name must be at least 4 characters.
+          </span>
         </div>
         <div class="form-group col-md-6 col-12 my-2">
           <label for="order">Fav Order</label>
-          <input type="number" class="form-control" id="order" formControlName="order">
+          <input type="number" class="form-control" id="order" formControlName="order" required>
+          <span *ngIf="order?.errors?.['required']" class="text-danger">
+            order is required.
+          </span>
+          <span *ngIf="order?.errors?.['min']" class="text-danger">
+            order must be at least 0.
+          </span>
+          <span *ngIf="order?.errors?.['max']" class="text-danger">
+            order must be less or equal to 100.
+          </span>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-success" (click)="AddBookToList(listIndex,BookForm)">Save</button>
+      <button type="submit" class="btn btn-success" [disabled]="!bookForm.valid">Save</button>
       <button type="button" class="btn btn-outline-dark" (click)="d('Close click')">Close</button>
     </div>
   </form>

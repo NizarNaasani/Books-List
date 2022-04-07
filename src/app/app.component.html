@@ -6,19 +6,19 @@
 <div class="container">
   <div class="d-flex my-2 justify-content-between">
     <h2>Books Lists</h2>
-    <button type="button" class="btn btn-primary align-self-center" (click)="showAddListModal(AddListModal)">
+    <button type="button" class="btn btn-primary align-self-center" (click)="ShowAddListModal(AddListModal)">
       Add List</button>
   </div>
   <div class="row">
-    <ng-container *ngFor="let BooksList of BooksLists;let i = index">
-      <book-list *ngIf="BooksList.List.length > 0" [books]="BooksList.List" [listIndex]="i"
+    <ng-container *ngFor="let booksList of booksLists;let i = index">
+      <book-list *ngIf="booksList.list.length > 0" [books]="booksList.list" [listIndex]="i"
         class="col-md-6 col-12 my-3">
       </book-list>
     </ng-container>
   </div>
 
   <footer>
-    Books List {{date}}
+    Books List {{currentYear}}
   </footer>
 </div>
 
@@ -28,28 +28,61 @@
     <h4 class="modal-title">Add New Books List</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
   </div>
-  <form [formGroup]="ListForm">
+  <form [formGroup]="listForm" (ngSubmit)="AddList(booksList)">
     <div class="modal-body" formArrayName="books_list">
       <div class="row my-2" *ngFor="let bookInput of booksList.controls; let bookIndex=index"
         [formGroupName]="bookIndex">
         <div class="form-group col-md-3 my-2">
           <label [for]="'title' + bookIndex">Book Title</label>
-          <input type="text" class="form-control" [id]="'title' + bookIndex" formControlName="title">
+          <input type="text" class="form-control" [id]="'title' + bookIndex" formControlName="title" required>
+
+          <span *ngIf="bookInput.get('title')?.errors?.['required']" class="text-danger">
+            title is required.
+          </span>
+          <span *ngIf="bookInput.get('title')?.errors?.['minlength']" class="text-danger">
+            title must be at least 4 characters.
+          </span>
         </div>
         <div class="form-group col-md-3 my-2">
           <label [for]="'year' + bookIndex">Year</label>
-          <input type="number" class="form-control" [id]="'year' + bookIndex" formControlName="year">
+          <input type="number" class="form-control" [id]="'year' + bookIndex" formControlName="year" required>
+          <span *ngIf="bookInput.get('year')?.errors?.['required']" class="text-danger">
+            year is required.
+          </span>
+          <span *ngIf="bookInput.get('year')?.errors?.['min']" class="text-danger">
+            year must be at least 1100.
+          </span>
+          <span *ngIf="bookInput.get('year')?.errors?.['max']" class="text-danger">
+            year must be less or equal to {{ currentYear}}.
+          </span>
         </div>
         <div class="form-group col-md-3 my-2">
           <label [for]="'author' + bookIndex">Author Name</label>
-          <input type="text" class="form-control" [id]="'author' + bookIndex" formControlName="author">
+          <input type="text" class="form-control" [id]="'author' + bookIndex" formControlName="author" required>
+          <span *ngIf="bookInput.get('author')?.errors?.['required']" class="text-danger">
+            author is required.
+          </span>
+          <span *ngIf="bookInput.get('author')?.errors?.['minlength']" class="text-danger">
+            author name must be at least 4 characters.
+          </span>
         </div>
         <div class="form-group col-md-3 my-2">
           <label [for]="'order' + bookIndex">Fav Order</label>
           <div class="d-flex">
-            <input type="number" class="form-control" [id]="'order' + bookIndex" formControlName="order">
-            <button type="button" class="btn btn-danger btn-sm mx-2 rounded"
-              (click)="DeleteBookInput(bookIndex)">delete</button>
+            <div>
+              <input type="number" class="form-control" [id]="'order' + bookIndex" formControlName="order" required>
+              <span *ngIf="bookInput.get('order')?.errors?.['required']" class="text-danger">
+                order is required.
+              </span>
+              <span *ngIf="bookInput.get('order')?.errors?.['min']" class="text-danger">
+                order must be at least 0.
+              </span>
+              <span *ngIf="bookInput.get('order')?.errors?.['max']" class="text-danger">
+                order must be less or equal to 100.
+              </span>
+            </div>
+            <button type="button" class="btn btn-danger btn-sm mx-2 rounded align-self-start"
+              [disabled]="booksList.length == 1" (click)="DeleteBookInput(bookIndex)">delete</button>
           </div>
         </div>
         <hr>
@@ -57,7 +90,7 @@
       <button type="button" class="btn btn-outline-dark btn-sm my-3" (click)="AddBookInput()">Add another Book</button>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-success" (click)="AddList(booksList)">Save</button>
+      <button type="submit" class="btn btn-success" [disabled]="!listForm.valid">Save</button>
       <button type="button" class="btn btn-outline-dark" (click)="d('Close click')">Close</button>
     </div>
   </form>
