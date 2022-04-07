@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppService } from '../app.service';
 import { BookItem } from '../models/BookItem';
@@ -27,7 +27,12 @@ export class ListComponent implements OnInit {
   booksList: BookItem[] = [];
 
   //#region Book Form
-  bookForm: FormGroup = this.formBuilder.group(this.appService.bookItem);
+  bookForm: FormGroup = this.formBuilder.group({
+    title: ['', [Validators.required, Validators.minLength(4)]],
+    year: [1100, [Validators.required, Validators.min(1100), Validators.max(2022)]],
+    author: ['', [Validators.required, Validators.minLength(4)]],
+    order: [1, [Validators.required, Validators.min(0), Validators.max(100)]]
+  });
   get title() { return this.bookForm.get('title'); }
   get year() { return this.bookForm.get('year'); }
   get author() { return this.bookForm.get('author'); }

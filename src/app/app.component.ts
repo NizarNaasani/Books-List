@@ -17,10 +17,14 @@ export class AppComponent {
   currentYear: number = this.appService.currentYear;
   booksLists: ListItem[] = this.appService.GetBooksLists();
   //#region List Form
-  bookItemForm: FormGroup = this.formbuilder.group(this.appService.bookItem);
   listForm: FormGroup = this.formbuilder.group({
     books_list: this.formbuilder.array([
-      this.bookItemForm
+      this.formbuilder.group({
+        title: ['', [Validators.required, Validators.minLength(4)]],
+        year: [1100, [Validators.required, Validators.min(1100), Validators.max(2022)]],
+        author: ['', [Validators.required, Validators.minLength(4)]],
+        order: [1, [Validators.required, Validators.min(0), Validators.max(100)]]
+      })
     ])
   });
   get booksList() {
@@ -33,7 +37,12 @@ export class AppComponent {
   }
 
   addBookInput() {
-    this.booksList.push(this.bookItemForm)
+    this.booksList.push(this.formbuilder.group({
+      title: ['', [Validators.required, Validators.minLength(4)]],
+      year: [1100, [Validators.required, Validators.min(1100), Validators.max(2022)]],
+      author: ['', [Validators.required, Validators.minLength(4)]],
+      order: [1, [Validators.required, Validators.min(0), Validators.max(100)]]
+    }))
   }
 
   deleteBookInput(index: number) {
