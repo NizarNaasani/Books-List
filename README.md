@@ -4,4 +4,4 @@
 
 2. Run `npm install` to build the project.
 
-3. Run `npm run start` to start the Application. Navigate to `http://localhost:4200/`. The application will automatically.
+3. Run `npm run start` to start the Application. Navigate to `http://localhost:4200/`. The application will run automatically.
