@@ -1,5 +1,5 @@
-import { bookItem } from "./bookItem";
+import { BookItem } from "./BookItem";
 
-export interface listItem {
-  list: bookItem[]
+export interface ListItem {
+  list: BookItem[]
 }

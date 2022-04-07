@@ -1,13 +1,14 @@
 import { Injectable } from "@angular/core";
-import { bookItem } from "./models/bookItem";
-import { listItem } from "./models/listItem";
+import { Validators } from "@angular/forms";
+import { BookItem } from "./models/BookItem";
+import { ListItem } from "./models/ListItem";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
   currentYear: number = new Date().getFullYear();
-  listItems: listItem[] = [
+  ListItems: ListItem[] = [
     {
       list: [{ title: "Dune", year: 1965, author: "Frank Herbert", order: 2 },
       { title: "Eder's Game", year: 1985, author: "Orson Scott Car", order: 3 },
@@ -24,28 +25,31 @@ export class AppService {
       { title: "1984", year: 1949, author: "George Orwell", order: 1 },]
     },
   ];
-
+  bookItem: object = {
+    title: ['', [Validators.required, Validators.minLength(4)]],
+    year: [1100, [Validators.required, Validators.min(1100), Validators.max(2022)]],
+    author: ['', [Validators.required, Validators.minLength(4)]],
+    order: [1, [Validators.required, Validators.min(0), Validators.max(100)]]
+  };
   GetBooksLists() {
-    return this.listItems;
+    return this.ListItems;
   }
 
-  AddBooksList(list: bookItem[]) {
-    this.listItems.push({
+  AddBooksList(list: BookItem[]) {
+    this.ListItems.push({
       list: list
     });
   }
 
-  RemovebooksList(index: number) {
-    this.listItems.splice(index, 1);
+  removeBooksList(index: number) {
+    this.ListItems.splice(index, 1);
   }
 
-  AddBookToList(listIndex: number, book: bookItem) {
-    this.listItems[listIndex].list.push(book);
+  addBookToList(listIndex: number, book: BookItem) {
+    this.ListItems[listIndex].list.push(book);
   }
 
-  RemoveBook(listIndex: number, bookIndex: number) {
-    this.listItems[listIndex].list.splice(bookIndex, 1);
+  removeBook(listIndex: number, bookIndex: number) {
+    this.ListItems[listIndex].list.splice(bookIndex, 1);
   }
-
-
 }

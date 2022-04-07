@@ -1,10 +1,10 @@
 <div class="table-header">
   <h4>List {{listIndex + 1}}</h4>
-  <button class="btn btn-outline-secondary btn-sm m-1" (click)="SortList()">Order by fav</button>
+  <button class="btn btn-outline-secondary btn-sm m-1" (click)="sortList()">Order by fav</button>
   <div>
     <img placement="top" ngbTooltip="Add Book" role="button" src="/assets/plus.svg"
-      (click)="ShowAddBookModal(AddBookModal)">
-    <img placement="top" ngbTooltip="Remove List" role="button" src="/assets/trash.svg" (click)="RemovebooksList()">
+      (click)="showAddBookModal(AddBookModal)">
+    <img placement="top" ngbTooltip="Remove List" role="button" src="/assets/trash.svg" (click)="removeBooksList()">
   </div>
 </div>
 
@@ -20,7 +20,7 @@
       <td>{{book.year}}</td>
       <td>{{book.author}}</td>
       <td>
-        <img placement="top" ngbTooltip="Remove Book" role="button" src="/assets/trash.svg" (click)="RemoveBook(i)">
+        <img placement="top" ngbTooltip="Remove Book" role="button" src="/assets/trash.svg" (click)="removeBook(i)">
       </td>
     </tr>
   </tbody>
@@ -32,7 +32,7 @@
     <h4 class="modal-title">Add New Book to List</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
   </div>
-  <form [formGroup]="bookForm" (ngSubmit)="AddBookToList(listIndex,bookForm)">
+  <form [formGroup]="bookForm" (ngSubmit)="addBookToList(listIndex,bookForm)">
     <div class="modal-body">
       <div class="row">
         <div class="form-group col-md-6 col-12 my-2">
